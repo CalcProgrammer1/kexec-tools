@@ -921,6 +921,7 @@ void usage(void)
 	       "                      context of current kernel during kexec.\n"
 	       "     --load-jump-back-helper Load a helper image to jump back\n"
 	       "                      to original kernel.\n"
+	       "     --load-hardboot  Load the new kernel and hard boot it.\n"
 	       "     --entry=<addr>   Specify jump back address.\n"
 	       "                      (0 means it's not jump back or\n"
 	       "                      preserve context)\n"
@@ -1194,6 +1195,12 @@ int main(int argc, char *argv[])
 		case OPT_REUSE_INITRD:
 			do_reuse_initrd = 1;
 			break;
+		case OPT_LOAD_HARDBOOT:
+			do_load = 1;
+			do_exec = 0;
+			do_shutdown = 0;
+			kexec_flags = KEXEC_HARDBOOT;
+			break;
 		default:
 			break;
 		}
@@ -1212,6 +1219,12 @@ int main(int argc, char *argv[])
 		die("Please specify memory range used by kexeced kernel\n"
 		    "to preserve the context of original kernel with \n"
 		    "\"--mem-max\" parameter\n");
+	}
+
+	if (do_load && (kexec_flags & KEXEC_HARDBOOT) &&  mem_min == 0) {
+		printf("Please specify memory range used by kexeced kernel\n");
+		printf("to avoid being overwritten by on reboot with the\n");
+		die("\"--min-max\" parameter\n");
 	}
 
 	fileind = optind;

@@ -44,7 +44,7 @@
 #define PACKAGE_BUGREPORT ""
 
 /* Define to the release date of this package */
-#define PACKAGE_DATE "09 June 2014"
+#define PACKAGE_DATE "13 September 2014"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "kexec-tools"
